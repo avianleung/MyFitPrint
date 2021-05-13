@@ -34,6 +34,10 @@ db.mongoose
 // routes
 require("./routes/routes")(app);
 
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname + "/client/build/index.html"));
+});
+
 // set port, listen for requests
 const PORT = process.env.PORT || 8080;
 app.listen(PORT, () => {
