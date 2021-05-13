@@ -10,6 +10,8 @@ var corsOptions = {
   origin: "https://myfitprint.herokuapp.com/",
 };
 
+app.use(express.static(path.join(__dirname, "client/build")));
+
 app.use(cors(corsOptions));
 
 // parse requests of content-type - application/json
