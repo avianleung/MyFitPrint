@@ -21,7 +21,7 @@ import DeleteOutlineOutlinedIcon from "@material-ui/icons/DeleteOutlineOutlined"
 import AddCircleOutlineOutlinedIcon from "@material-ui/icons/AddCircleOutlineOutlined";
 import RemoveCircleOutlineIcon from "@material-ui/icons/RemoveCircleOutline";
 import Container from "@material-ui/core/Container";
-import Navbar from "./components/Navbar";
+import Navbar from "./Navbar";
 
 import AddExercise from "./AddExercise";
 import EditExercise from "./EditExercise";
