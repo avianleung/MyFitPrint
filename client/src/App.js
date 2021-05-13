@@ -1,16 +1,13 @@
+import React from "react";
 import Workout from "./components/Workout";
+import { Switch, Route } from "react-router-dom";
 import "./App.css";
-import Container from "@material-ui/core/Container";
-import Navbar from "./components/Navbar";
 
 function App() {
   return (
-    <div className='App' style={{ height: "100vh" }}>
-      <Navbar />
-      <Container maxWidth='sm'>
-        <Workout />
-      </Container>
-    </div>
+    <Switch>
+      <Route exact path='/' component={Workout} />
+    </Switch>
   );
 }
 
