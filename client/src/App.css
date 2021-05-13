@@ -1,0 +1,21 @@
+#root {
+  background: #f4f7fa;
+}
+
+/*linear-gradient(-135deg,#899fd4,#a389d4)*/
+
+.App {
+  text-align: center;
+}
+
+.MuiCardHeader-root {
+  padding-bottom: 0 !important;
+}
+
+.MuiDataGrid-root .MuiDataGrid-cell {
+  border-bottom: none !important;
+}
+
+#cell-border-none {
+  border-bottom: none;
+}
