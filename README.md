@@ -1,4 +1,4 @@
-# Lazy Cover Letter
+# My Fit Print (Fitness Tracker)
 
 Deployed to Heroku at https://myfitprint.herokuapp.com/ 
 
