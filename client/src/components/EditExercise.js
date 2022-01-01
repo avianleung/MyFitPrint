@@ -78,7 +78,7 @@ function EditExercise(props) {
   }
 
   return (
-    <TableRow key={props.exerciseId} onBlur={() => editExercise()}>
+    <TableRow key={props.exerciseId}>
       <TableCell component='th' scope='row' style={{ paddingLeft: 0 }}>
         <TextField
           autoFocus
@@ -119,7 +119,14 @@ function EditExercise(props) {
           onChange={(e) => setWeight(e.target.value)}
         />
       </TableCell>
-      <TableCell />
+      <TableCell align='right' style={{ paddingRight: 0 }}>
+        <IconButton
+          style={{ padding: 0 }}
+          onClick={() => editExercise()}
+        >
+          <CheckCircleOutlineOutlinedIcon fontSize='small' color="primary" />
+        </IconButton>
+      </TableCell>
       <TableCell align='right' style={{ paddingRight: 0 }}>
         <IconButton
           style={{ padding: 0 }}

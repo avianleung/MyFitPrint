@@ -72,6 +72,7 @@ function Workout(props) {
       .then((response) => {
         if (response.data) {
           setWorkouts(response.data);
+          setAddNew(false)
         }
       })
       .catch((e) => {
