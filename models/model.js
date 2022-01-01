@@ -5,11 +5,11 @@ const reqString = {
   required: true,
 };
 
-const exerciseSchema = mongoose.Schema(
+const exerciseDataSchema = mongoose.Schema(
   {
-    exercise: reqString,
-    sets: reqString,
+    set: reqString,
     reps: reqString,
+    weight: reqString,
   },
   {
     timestamps: true,
@@ -18,9 +18,10 @@ const exerciseSchema = mongoose.Schema(
 
 const workoutSchema = mongoose.Schema(
   {
-    split: reqString,
+    user: reqString,
     date: reqString,
-    exercises: [exerciseSchema],
+    exercise: reqString,
+    exerciseData: [exerciseDataSchema],
   },
   { timestamps: true }
 );

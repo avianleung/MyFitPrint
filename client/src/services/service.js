@@ -1,8 +1,8 @@
 import http from "../http-common";
 
 class DataService {
-  findAll() {
-    return http.get("/");
+  findByDate(date) {
+    return http.get(`/${date}`);
   }
 
   createNew(data) {

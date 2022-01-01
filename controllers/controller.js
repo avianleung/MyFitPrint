@@ -4,16 +4,17 @@ const Workout = db.workouts;
 // Create and Save a new Workout
 exports.create = (req, res) => {
   // Validate request
-  if (!req.body.split) {
+  if (!req.body.date) {
     res.status(400).send({ message: "Content can not be empty!" });
     return;
   }
 
   // Create a Workout
   const workout = new Workout({
-    split: req.body.split,
+    user: "placeholderUser",
     date: req.body.date,
-    exercises: req.body.exercises,
+    exercise: req.body.exercise,
+    exerciseData: req.body.exerciseData,
   });
 
   // Save Workout in the database
@@ -31,14 +32,10 @@ exports.create = (req, res) => {
 };
 
 // Retrieve all Workouts from the database.
-exports.findAll = (req, res) => {
-  const split = req.query.split;
-  var condition = split
-    ? { split: { $regex: new RegExp(split), $options: "i" } }
-    : {};
+exports.findByDate = (req, res) => {
+  const date = req.params.date;
 
-  Workout.find(condition)
-    .sort({ date: -1 })
+  Workout.find({date: date})
     .then((data) => {
       res.send(data);
     })
@@ -67,7 +64,7 @@ exports.findOne = (req, res) => {
     });
 };
 
-exports.updateWorkout = (req, res) => {
+exports.updateExercise = (req, res) => {
   if (!req.body) {
     return res.status(400).send({
       message: "Data to update can not be empty!",
@@ -93,7 +90,7 @@ exports.updateWorkout = (req, res) => {
 };
 
 // Create an Exercse by the Workout id in the request
-exports.addExercise = (req, res) => {
+exports.addExerciseData = (req, res) => {
   if (!req.body) {
     return res.status(400).send({
       message: "Data to update can not be empty!",
@@ -106,10 +103,10 @@ exports.addExercise = (req, res) => {
     { _id: id },
     {
       $push: {
-        exercises: {
-          exercise: req.body.exercise,
-          sets: req.body.sets,
+        exerciseData: {
+          set: req.body.set,
           reps: req.body.reps,
+          weight: req.body.weight,
         },
       },
     },
@@ -118,7 +115,7 @@ exports.addExercise = (req, res) => {
     .then((data) => {
       if (!data) {
         res.status(404).send({
-          message: `Cannot add exercse with Workout id=${id}. Maybe Workout was not found!`,
+          message: `Cannot add exerciseData with Workout id=${id}. Maybe Workout was not found!`,
         });
       } else res.send(data);
     })
@@ -128,7 +125,7 @@ exports.addExercise = (req, res) => {
 };
 
 // Update a Workout by the id in the request
-exports.updateExercise = (req, res) => {
+exports.updateExerciseData = (req, res) => {
   if (!req.body) {
     return res.status(400).send({
       message: "Data to update can not be empty!",
@@ -139,12 +136,12 @@ exports.updateExercise = (req, res) => {
   const exerciseId = req.params.exerciseId;
 
   Workout.findOneAndUpdate(
-    { _id: id, "exercises._id": exerciseId },
+    { _id: id, "exerciseData._id": exerciseId },
     {
       $set: {
-        "exercises.$.exercise": req.body.exercise,
-        "exercises.$.sets": req.body.sets,
-        "exercises.$.reps": req.body.reps,
+        "exerciseData.$.set": req.body.set,
+        "exerciseData.$.reps": req.body.reps,
+        "exerciseData.$.weight": req.body.weight,
       },
     },
     { useFindAndModify: false, returnOriginal: false }
@@ -162,7 +159,7 @@ exports.updateExercise = (req, res) => {
 };
 
 // Delete an Exercse by the Workout id in the request
-exports.deleteExercise = (req, res) => {
+exports.deleteExerciseData = (req, res) => {
   if (!req.body) {
     return res.status(400).send({
       message: "Data to update can not be empty!",
@@ -170,23 +167,23 @@ exports.deleteExercise = (req, res) => {
   }
 
   const id = req.params.id;
-  const exerciseId = req.params.exerciseId;
+  const exerciseDataId = req.params.exerciseId;
 
   Workout.findOneAndUpdate(
     { _id: id },
     {
       $pull: {
-        exercises: {
-          _id: exerciseId,
+        exerciseData: {
+          _id: exerciseDataId,
         },
       },
     },
-    { useFindAndModify: false, returnOriginal: false }
+    {  multi: true, useFindAndModify: false, returnOriginal: false }
   )
     .then((data) => {
       if (!data) {
         res.status(404).send({
-          message: `Cannot delere exercse with Workout id=${id}. Maybe Workout was not found!`,
+          message: `Cannot delete exercse with Workout id=${id}. Maybe Workout was not found!`,
         });
       } else res.send(data);
     })

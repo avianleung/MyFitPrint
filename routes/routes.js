@@ -7,19 +7,19 @@ module.exports = (app) => {
   router.post("/", workouts.create);
 
   // Retrieve all Workouts
-  router.get("/", workouts.findAll);
+  router.get("/:date", workouts.findByDate);
 
   // Add an Exercise with Workout id
-  router.post("/:id", workouts.addExercise);
+  router.post("/:id", workouts.addExerciseData);
 
   // Update a Workout with id
-  router.put("/:id", workouts.updateWorkout);
+  router.put("/:id", workouts.updateExercise);
 
   // Delete an Exercise with id
-  router.delete("/:id/:exerciseId", workouts.deleteExercise);
+  router.delete("/:id/:exerciseId", workouts.deleteExerciseData);
 
   // Update an Exercise with id
-  router.put("/:id/:exerciseId", workouts.updateExercise);
+  router.put("/:id/:exerciseId", workouts.updateExerciseData);
 
   // Delete a Workout with id
   router.delete("/:id", workouts.delete);

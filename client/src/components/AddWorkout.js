@@ -36,19 +36,27 @@ const useStyles = makeStyles((theme) => ({
 function AddWorkout(props) {
   const classes = useStyles();
 
-  const [split, setSplit] = useState("");
-  const [date, setDate] = useState("");
+  const [exercise, setExercise] = useState("");
 
   function createNewWorkout() {
     const body = {
-      split,
-      date,
+      date: props.date,
+      exercise,
     };
 
     DataService.createNew(body)
       .then((response) => {
         if (response.data) {
-          window.location.reload();
+          DataService.findByDate(props.date)
+            .then((response) => {
+              if (response.data) {
+                props.setWorkouts(response.data);
+                props.setAddNew(false)
+              }
+            })
+            .catch((e) => {
+              console.log(e);
+            });
         }
       })
       .catch((e) => {
@@ -69,24 +77,13 @@ function AddWorkout(props) {
               }}
             >
               <TextField
-                label='Split'
+                label='Exercise'
                 autoFocus
                 InputLabelProps={{
                   shrink: true,
                 }}
-                value={split}
-                onChange={(e) => setSplit(e.target.value)}
-              />
-              <TextField
-                label='Date'
-                type='date'
-                InputLabelProps={{
-                  shrink: true,
-                }}
-                value={date}
-                onChange={(e) => {
-                  setDate(e.target.value);
-                }}
+                value={exercise}
+                onChange={(e) => setExercise(e.target.value)}
               />
               <IconButton
                 style={{ padding: 0 }}

@@ -1,5 +1,5 @@
 import "../App.css";
-import React, { useState, useEffect } from "react";
+import React, { Fragment, useState, useEffect } from "react";
 import DataService from "../services/service";
 import { makeStyles } from "@material-ui/core/styles";
 import {
@@ -60,9 +60,11 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function Workout() {
+function Workout(props) {
   useEffect(() => {
-    DataService.findAll()
+    const { date } = props
+
+    DataService.findByDate(date)
       .then((response) => {
         if (response.data) {
           setWorkouts(response.data);
@@ -71,7 +73,7 @@ function Workout() {
       .catch((e) => {
         console.log(e);
       });
-  }, []);
+  }, [props]);
 
   const [workouts, setWorkouts] = useState([]);
 
@@ -106,18 +108,19 @@ function Workout() {
 
   const classes = useStyles();
   return (
-    <div className={classes.root}>
+    <div className={classes.root} style={{ paddingBottom: "7%" }}>
       <Grid container>
         <Grid item xs={12}>
           <Button
-            variant='outlined'
+            variant='contained'
             color='primary'
-            style={{ width: "100%", marginTop: "5%", marginBottom: "5%" }}
+            style={{ width: "100%", /* marginTop: "5%", */ marginBottom: "5%" }}
             onClick={() => setAddNew(true)}
           >
             NEW
           </Button>
-          <AddWorkout addNew={addNew} setAddNew={setAddNew} />
+          <AddWorkout addNew={addNew} setAddNew={setAddNew} date={props.date} setWorkouts={setWorkouts}/>
+          <Fragment >
           {workouts.map((workout, i) => (
             <React.Fragment key={workout._id}>
               <Card
@@ -140,7 +143,7 @@ function Workout() {
                           style={{ display: "inline-block" }}
                           variant='h6'
                         >
-                          <b>{workout.split}</b>
+                          <b>{workout.exercise}</b>
                         </Typography>
                         <IconButton
                           style={{
@@ -154,7 +157,7 @@ function Workout() {
                         </IconButton>
                       </div>
                     }
-                    subheader={
+                    /* subheader={
                       <div className={classes.heading}>
                         <Typography
                           style={{ display: "inline-block" }}
@@ -163,14 +166,14 @@ function Workout() {
                           {workout.date}
                         </Typography>
                       </div>
-                    }
+                    } */
                   />
                 )}
                 <CardContent style={{ paddingBottom: 0 }}>
                   <Table className={classes.table} size='small'>
                     <TableHead>
                       <TableRow style={{ paddingBottom: 0, paddingTop: 0 }}>
-                        {["Exercise", "Sets", "Reps"].map((title, i2) => (
+                        {["Set", "Reps", "Weight"].map((title, i2) => (
                           <TableCell
                             key={i2}
                             align={i2 > 0 ? "left" : "inherit"}
@@ -184,16 +187,16 @@ function Workout() {
                       </TableRow>
                     </TableHead>
                     <TableBody>
-                      {workout.exercises.map((exercise, i3) => (
-                        <TableRow key={exercise._id}>
+                      {workout?.exerciseData?.map((exerciseData, i3) => (
+                        <TableRow key={exerciseData._id}>
                           {arrayEquals(currentlyEditing, [i, i3]) ? (
                             <EditExercise
                               setCurrentlyEditing={setCurrentlyEditing}
                               id={workout._id}
-                              exerciseId={exercise._id}
+                              exerciseId={exerciseData._id}
                               workouts={workouts}
                               setWorkouts={setWorkouts}
-                              exercise={exercise}
+                              exerciseData={exerciseData}
                               i={i}
                               i3={i3}
                             />
@@ -208,7 +211,7 @@ function Workout() {
                                   paddingLeft: 0,
                                 }}
                               >
-                                {exercise.exercise}
+                                {exerciseData.set}
                               </TableCell>
                               <TableCell
                                 align='left'
@@ -218,7 +221,7 @@ function Workout() {
                                   paddingLeft: 0,
                                 }}
                               >
-                                {exercise.sets}
+                                {exerciseData.reps}
                               </TableCell>
                               <TableCell
                                 align='left'
@@ -228,7 +231,7 @@ function Workout() {
                                   paddingLeft: 0,
                                 }}
                               >
-                                {exercise.reps}
+                                {exerciseData.weight}
                               </TableCell>
                               <TableCell
                                 align='right'
@@ -248,7 +251,7 @@ function Workout() {
                                 <IconButton
                                   style={{ padding: 0 }}
                                   onClick={() =>
-                                    deleteExercise(workout._id, exercise._id, i)
+                                    deleteExercise(workout._id, exerciseData._id, i)
                                   }
                                 >
                                   <DeleteOutlineOutlinedIcon fontSize='small' />
@@ -296,6 +299,7 @@ function Workout() {
               <br />
             </React.Fragment>
           ))}
+          </Fragment>
         </Grid>
       </Grid>
     </div>

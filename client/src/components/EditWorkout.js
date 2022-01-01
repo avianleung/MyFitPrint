@@ -41,8 +41,7 @@ const useStyles = makeStyles((theme) => ({
 function EditWorkout(props) {
   const classes = useStyles();
 
-  const [split, setSplit] = useState(props.workout.split);
-  const [date, setDate] = useState(props.workout.date);
+  const [exercise, setExercise] = useState(props.workout.exercise);
 
   function deleteWorkout() {
     DataService.deleteWorkout(props.workout._id)
@@ -60,7 +59,7 @@ function EditWorkout(props) {
   }
 
   function editWorkout() {
-    const body = { split, date };
+    const body = { exercise };
     DataService.editWorkout(props.workout._id, body)
       .then((response) => {
         if (response.data) {
@@ -86,8 +85,8 @@ function EditWorkout(props) {
                 input: classes.resizeHeader,
               },
             }}
-            value={split}
-            onChange={(e) => setSplit(e.target.value)}
+            value={exercise}
+            onChange={(e) => setExercise(e.target.value)}
           />
           <div>
             <IconButton
@@ -105,22 +104,6 @@ function EditWorkout(props) {
               <DeleteIcon style={{ color: "#3f51b5" }} />
             </IconButton>
           </div>
-        </div>
-      }
-      subheader={
-        <div className={classes.heading}>
-          <Typography style={{ display: "inline-block" }} variant='subtitle1'>
-            <TextField
-              type='date'
-              InputProps={{
-                classes: {
-                  input: classes.resizeSubheader,
-                },
-              }}
-              value={date}
-              onChange={(e) => setDate(e.target.value)}
-            />
-          </Typography>
         </div>
       }
     />

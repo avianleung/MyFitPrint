@@ -36,15 +36,17 @@ const useStyles = makeStyles((theme) => ({
 function EditExercise(props) {
   const classes = useStyles();
 
-  const [exercise, setExercise] = useState(props.exercise.exercise);
-  const [sets, setSets] = useState(props.exercise.sets);
-  const [reps, setReps] = useState(props.exercise.reps);
+  console.log(props.exerciseData)
+
+  const [set, setSet] = useState(props.exerciseData.set);
+  const [reps, setReps] = useState(props.exerciseData.reps);
+  const [weight, setWeight] = useState(props.exerciseData.weight);
 
   function editExercise() {
     const body = {
-      exercise,
-      sets,
+      set,
       reps,
+      weight,
     };
 
     DataService.editExercise(props.id, props.exerciseId, body)
@@ -71,9 +73,9 @@ function EditExercise(props) {
               input: classes.resize,
             },
           }}
-          name='exercise'
-          value={exercise}
-          onChange={(e) => setExercise(e.target.value)}
+          name='set'
+          value={set}
+          onChange={(e) => setSet(e.target.value)}
         />
       </TableCell>
       <TableCell align='left' style={{ paddingLeft: 0 }}>
@@ -84,8 +86,8 @@ function EditExercise(props) {
             },
           }}
           name='sets'
-          value={sets}
-          onChange={(e) => setSets(e.target.value)}
+          value={reps}
+          onChange={(e) => setReps(e.target.value)}
         />
       </TableCell>
       <TableCell align='left' style={{ paddingLeft: 0 }}>
@@ -95,9 +97,9 @@ function EditExercise(props) {
               input: classes.resize,
             },
           }}
-          name='reps'
-          value={reps}
-          onChange={(e) => setReps(e.target.value)}
+          name='weight'
+          value={weight}
+          onChange={(e) => setWeight(e.target.value)}
         />
       </TableCell>
       <TableCell align='right' style={{ paddingRight: 0 }}>

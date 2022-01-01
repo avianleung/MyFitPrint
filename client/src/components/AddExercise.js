@@ -36,15 +36,15 @@ const useStyles = makeStyles((theme) => ({
 function AddExercise(props) {
   const classes = useStyles();
 
-  const [exercise, setExercise] = useState("");
-  const [sets, setSets] = useState("");
+  const [set, setSet] = useState("");
   const [reps, setReps] = useState("");
+  const [weight, setWeight] = useState("");
 
   function createNewExercise() {
     const body = {
-      exercise,
-      sets,
+      set,
       reps,
+      weight,
     };
 
     DataService.addExercise(props.id, body)
@@ -75,22 +75,8 @@ function AddExercise(props) {
               input: classes.resize,
             },
           }}
-          value={exercise}
-          onChange={(e) => setExercise(e.target.value)}
-        />
-      </TableCell>
-      <TableCell
-        align='left'
-        style={{ paddingLeft: 0, borderBottom: "none", paddingBottom: "32px" }}
-      >
-        <TextField
-          InputProps={{
-            classes: {
-              input: classes.resize,
-            },
-          }}
-          value={sets}
-          onChange={(e) => setSets(e.target.value)}
+          value={set}
+          onChange={(e) => setSet(e.target.value)}
         />
       </TableCell>
       <TableCell
@@ -105,6 +91,20 @@ function AddExercise(props) {
           }}
           value={reps}
           onChange={(e) => setReps(e.target.value)}
+        />
+      </TableCell>
+      <TableCell
+        align='left'
+        style={{ paddingLeft: 0, borderBottom: "none", paddingBottom: "32px" }}
+      >
+        <TextField
+          InputProps={{
+            classes: {
+              input: classes.resize,
+            },
+          }}
+          value={weight}
+          onChange={(e) => setWeight(e.target.value)}
         />
       </TableCell>
 
