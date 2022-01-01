@@ -6,11 +6,11 @@ const path = require("path");
 const app = express();
 
 var corsOptions = {
-  origin: "http://localhost:3000",
-  //origin: "https://myfitprint.herokuapp.com/",
+  //origin: "http://localhost:3000",
+  origin: "https://myfitprint.herokuapp.com/",
 };
 
-//app.use(express.static(path.join(__dirname, "client/build")));
+app.use(express.static(path.join(__dirname, "client/build")));
 
 app.use(cors(corsOptions));
 
@@ -37,9 +37,9 @@ db.mongoose
 // routes
 require("./routes/routes")(app);
 
-/* app.get("*", (req, res) => {
+app.get("*", (req, res) => {
   res.sendFile(path.join(__dirname + "/client/build/index.html"));
-}); */
+});
 
 // set port, listen for requests
 const PORT = process.env.PORT || 8080;
