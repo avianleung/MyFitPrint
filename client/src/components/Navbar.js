@@ -65,7 +65,7 @@ export default function Navbar() {
 
   return (
     <div className={classes.root}>
-      <AppBar position='static'>
+      <AppBar position='static' style={{ background: '#1e2021' }}>
         <Container maxWidth='sm'>
           <Toolbar
             style={{

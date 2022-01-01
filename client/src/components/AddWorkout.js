@@ -2,9 +2,9 @@ import "../App.css";
 import React, { useState } from "react";
 import DataService from "../services/service";
 import { makeStyles } from "@material-ui/core/styles";
-import { Card, CardContent, TextField, IconButton } from "@material-ui/core";
-import CheckCircleOutlineOutlinedIcon from "@material-ui/icons/CheckCircleOutlineOutlined";
-import CancelOutlinedIcon from "@material-ui/icons/CancelOutlined";
+import { Card, CardContent, TextField, IconButton } from "@mui/material";
+import CheckCircleOutlineOutlinedIcon from "@mui/icons-material/CheckCircleOutlineOutlined";
+import CancelOutlinedIcon from "@mui/icons-material/CancelOutlined";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -77,6 +77,7 @@ function AddWorkout(props) {
               }}
             >
               <TextField
+                variant="standard"
                 label='Exercise'
                 autoFocus
                 InputLabelProps={{

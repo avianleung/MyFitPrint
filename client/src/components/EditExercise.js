@@ -2,9 +2,10 @@ import "../App.css";
 import React, { useState } from "react";
 import DataService from "../services/service";
 import { makeStyles } from "@material-ui/core/styles";
-import { TableCell, TextField, IconButton } from "@material-ui/core";
-import CheckCircleOutlineOutlinedIcon from "@material-ui/icons/CheckCircleOutlineOutlined";
-import CancelOutlinedIcon from "@material-ui/icons/CancelOutlined";
+import { TableRow, TableCell, TextField, IconButton } from "@mui/material";
+import CheckCircleOutlineOutlinedIcon from "@mui/icons-material/CheckCircleOutlineOutlined";
+import CancelOutlinedIcon from "@mui/icons-material/CancelOutlined";
+import DeleteOutlineOutlinedIcon from "@mui/icons-material/DeleteOutlineOutlined";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -36,8 +37,6 @@ const useStyles = makeStyles((theme) => ({
 function EditExercise(props) {
   const classes = useStyles();
 
-  console.log(props.exerciseData)
-
   const [set, setSet] = useState(props.exerciseData.set);
   const [reps, setReps] = useState(props.exerciseData.reps);
   const [weight, setWeight] = useState(props.exerciseData.weight);
@@ -63,11 +62,27 @@ function EditExercise(props) {
       });
   }
 
+  function deleteExercise(workoutId, exerciseId, index) {
+    DataService.deleteExercise(workoutId, exerciseId)
+      .then((response) => {
+        if (response.data) {
+          console.log(response.data);
+          const workoutsArray = [...props.workouts];
+          workoutsArray[index] = response.data;
+          props.setWorkouts(workoutsArray);
+        }
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  }
+
   return (
-    <React.Fragment>
+    <TableRow key={props.exerciseId} onBlur={() => editExercise()}>
       <TableCell component='th' scope='row' style={{ paddingLeft: 0 }}>
         <TextField
           autoFocus
+          variant="standard"
           InputProps={{
             classes: {
               input: classes.resize,
@@ -80,6 +95,7 @@ function EditExercise(props) {
       </TableCell>
       <TableCell align='left' style={{ paddingLeft: 0 }}>
         <TextField
+          variant="standard"
           InputProps={{
             classes: {
               input: classes.resize,
@@ -92,6 +108,7 @@ function EditExercise(props) {
       </TableCell>
       <TableCell align='left' style={{ paddingLeft: 0 }}>
         <TextField
+          variant="standard"
           InputProps={{
             classes: {
               input: classes.resize,
@@ -102,23 +119,18 @@ function EditExercise(props) {
           onChange={(e) => setWeight(e.target.value)}
         />
       </TableCell>
-      <TableCell align='right' style={{ paddingRight: 0 }}>
-        <IconButton style={{ padding: 0 }} onClick={() => editExercise()}>
-          <CheckCircleOutlineOutlinedIcon
-            fontSize='small'
-            style={{ color: "#3f51b5" }}
-          />
-        </IconButton>
-      </TableCell>
+      <TableCell />
       <TableCell align='right' style={{ paddingRight: 0 }}>
         <IconButton
           style={{ padding: 0 }}
-          onClick={() => props.setCurrentlyEditing([null, null])}
+          onClick={() =>
+            deleteExercise(props.id, props.exerciseId, props.i)
+          }
         >
-          <CancelOutlinedIcon fontSize='small' style={{ color: "#3f51b5" }} />
+          <DeleteOutlineOutlinedIcon fontSize='small' sx={{ color: "red" }} />
         </IconButton>
       </TableCell>
-    </React.Fragment>
+    </TableRow>
   );
 }
 

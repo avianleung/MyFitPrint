@@ -2,6 +2,7 @@ import "../App.css";
 import React, { Fragment, useState, useEffect } from "react";
 import DataService from "../services/service";
 import { makeStyles } from "@material-ui/core/styles";
+import { createTheme, ThemeProvider } from '@mui/material/styles';
 import {
   Grid,
   Card,
@@ -15,16 +16,19 @@ import {
   TableRow,
   IconButton,
   Button,
-} from "@material-ui/core";
-import EditOutlinedIcon from "@material-ui/icons/EditOutlined";
-import DeleteOutlineOutlinedIcon from "@material-ui/icons/DeleteOutlineOutlined";
-import AddCircleOutlineOutlinedIcon from "@material-ui/icons/AddCircleOutlineOutlined";
-import RemoveCircleOutlineIcon from "@material-ui/icons/RemoveCircleOutline";
+} from "@mui/material";
+import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
+import ArrowLeftOutlinedIcon from '@mui/icons-material/ArrowLeftOutlined';
+import AddCircleOutlineOutlinedIcon from "@mui/icons-material/AddCircleOutlineOutlined";
+import AddOutlinedIcon from '@mui/icons-material/AddOutlined';
+import RemoveCircleOutlineIcon from "@mui/icons-material/RemoveCircleOutline";
+import EditAttributesOutlinedIcon from '@mui/icons-material/EditAttributesOutlined';
 
 import AddExercise from "./AddExercise";
 import EditExercise from "./EditExercise";
 import AddWorkout from "./AddWorkout";
 import EditWorkout from "./EditWorkout";
+
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -50,15 +54,15 @@ const useStyles = makeStyles((theme) => ({
   },
   resizeSubheader: {
     fontSize: 14,
-  },
+  },  
   palette: {
-    primary: {
-      light: "#757ce8",
-      main: "#3f50b5",
-      dark: "#002884",
+    neutral: {
+      main: '#64748B',
+      contrastText: '#fff',
     },
   },
 }));
+
 
 function Workout(props) {
   useEffect(() => {
@@ -113,11 +117,10 @@ function Workout(props) {
         <Grid item xs={12}>
           <Button
             variant='contained'
-            color='primary'
             style={{ width: "100%", /* marginTop: "5%", */ marginBottom: "5%" }}
             onClick={() => setAddNew(true)}
           >
-            NEW
+            ADD EXERCISE
           </Button>
           <AddWorkout addNew={addNew} setAddNew={setAddNew} date={props.date} setWorkouts={setWorkouts}/>
           <Fragment >
@@ -153,20 +156,10 @@ function Workout(props) {
                           }}
                           onClick={() => setCurrentlyEditingWorkout(i)}
                         >
-                          <RemoveCircleOutlineIcon color='secondary' />
+                          <EditAttributesOutlinedIcon sx={{ color: "black" }}  />
                         </IconButton>
                       </div>
                     }
-                    /* subheader={
-                      <div className={classes.heading}>
-                        <Typography
-                          style={{ display: "inline-block" }}
-                          variant='subtitle1'
-                        >
-                          {workout.date}
-                        </Typography>
-                      </div>
-                    } */
                   />
                 )}
                 <CardContent style={{ paddingBottom: 0 }}>
@@ -188,7 +181,7 @@ function Workout(props) {
                     </TableHead>
                     <TableBody>
                       {workout?.exerciseData?.map((exerciseData, i3) => (
-                        <TableRow key={exerciseData._id}>
+                        <Fragment>
                           {arrayEquals(currentlyEditing, [i, i3]) ? (
                             <EditExercise
                               setCurrentlyEditing={setCurrentlyEditing}
@@ -201,7 +194,7 @@ function Workout(props) {
                               i3={i3}
                             />
                           ) : (
-                            <React.Fragment>
+                            <TableRow key={exerciseData._id}>
                               <TableCell
                                 component='th'
                                 scope='row'
@@ -233,6 +226,7 @@ function Workout(props) {
                               >
                                 {exerciseData.weight}
                               </TableCell>
+                              <TableCell />
                               <TableCell
                                 align='right'
                                 style={{ paddingRight: 0 }}
@@ -241,25 +235,12 @@ function Workout(props) {
                                   style={{ padding: 0 }}
                                   onClick={() => setCurrentlyEditing([i, i3])}
                                 >
-                                  <EditOutlinedIcon fontSize='small' />
+                                  <ArrowLeftOutlinedIcon fontSize='small' />
                                 </IconButton>
                               </TableCell>
-                              <TableCell
-                                align='right'
-                                style={{ paddingRight: 0 }}
-                              >
-                                <IconButton
-                                  style={{ padding: 0 }}
-                                  onClick={() =>
-                                    deleteExercise(workout._id, exerciseData._id, i)
-                                  }
-                                >
-                                  <DeleteOutlineOutlinedIcon fontSize='small' />
-                                </IconButton>
-                              </TableCell>
-                            </React.Fragment>
+                            </TableRow>
                           )}
-                        </TableRow>
+                        </Fragment>
                       ))}
                       {currentlyAdding === i ? (
                         <AddExercise
@@ -284,9 +265,9 @@ function Workout(props) {
                               style={{ padding: 0 }}
                               onClick={() => setCurrentlyAdding(i)}
                             >
-                              <AddCircleOutlineOutlinedIcon
-                                color='primary'
+                              <AddOutlinedIcon
                                 fontSize='small'
+                                sx={{ color: "black" }}
                               />
                             </IconButton>
                           </TableCell>

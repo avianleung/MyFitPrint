@@ -7,9 +7,10 @@ import {
   Typography,
   TextField,
   IconButton,
-} from "@material-ui/core";
-import DeleteIcon from "@material-ui/icons/Delete";
-import CheckCircleOutlineOutlinedIcon from "@material-ui/icons/CheckCircleOutlineOutlined";
+} from "@mui/material";
+import DeleteIcon from "@mui/icons-material/Delete";
+import BackspaceOutlinedIcon from '@mui/icons-material/BackspaceOutlined';
+import CheckCircleOutlineOutlinedIcon from "@mui/icons-material/CheckCircleOutlineOutlined";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -80,6 +81,7 @@ function EditWorkout(props) {
         <div className={classes.heading}>
           <TextField
             autoFocus
+            variant="standard"
             InputProps={{
               classes: {
                 input: classes.resizeHeader,
@@ -87,21 +89,25 @@ function EditWorkout(props) {
             }}
             value={exercise}
             onChange={(e) => setExercise(e.target.value)}
+            onBlur={() => editWorkout()}
           />
           <div>
+            {/* 
             <IconButton
               style={{ paddingBottom: 0, paddingTop: 0 }}
               onClick={() => editWorkout()}
             >
               <CheckCircleOutlineOutlinedIcon
+                color="primary"
                 style={{ color: "#3f51b5", paddingRight: "16px" }}
               />
             </IconButton>
+             */}
             <IconButton
               style={{ paddingBottom: 0, paddingTop: 0, paddingRight: 0 }}
               onClick={() => deleteWorkout()}
             >
-              <DeleteIcon style={{ color: "#3f51b5" }} />
+              <BackspaceOutlinedIcon sx={{ color: "red" }} />
             </IconButton>
           </div>
         </div>
