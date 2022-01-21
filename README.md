@@ -3,7 +3,7 @@
 Deployed to Heroku at https://myfitprint.herokuapp.com/ 
 
 ### What the app does
-This is a minimalistic workout tracker app for calisthenics athletes to easily manage with workout logs. Workouts are organized via splits (e.g. Push, Pull, Legs, Arms, Back).
+This is a minimalistic workout tracker app for weightlifting athletes to easily manage with workout logs. 
 
 ### Technologies Used
 - MongoDB
